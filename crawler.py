@@ -49,7 +49,7 @@ def crawlerThread(frontier):
                     just_link = "https://www.cpp.edu" + just_link
 
                     # adds link if not visited and not in frontier
-                    if just_link not in visited and just_link not in frontier:
+                    if just_link not in visited:
                         frontier.append(just_link)
 
         count = count + 1
