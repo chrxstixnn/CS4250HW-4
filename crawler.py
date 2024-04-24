@@ -33,7 +33,7 @@ def crawlerThread(frontier):
 
         # checks if the html contains the "Permanent Faculty" heading
         if the_html.find('h1', string="Permanent Faculty"):
-            print("permanent page found")
+            print("permanent faculty page found")
             frontier = []
             return url
         else:

@@ -20,14 +20,18 @@ def connect_to_mongodb():
     except:
         print("Database not connected successfully")
 
-
+# method to parse through the permanent faculty page
 def parse(col, url):
+
+    # gets the html of the website
     context = ssl._create_unverified_context()
     html = urlopen(url, context=context).read()
     soup = BeautifulSoup(html, 'html.parser')
 
+    # Gets the html of each professor
     professors = soup.find_all('div', class_='clearfix')
 
+    # parses through each professor and finds all the information
     for professor in professors:
         name = professor.find('h2')
         title = professor.find('strong', string=re.compile("Title"))
@@ -36,25 +40,32 @@ def parse(col, url):
         email = professor.find('a')
         website = professor.find('a', href=re.compile("http://"))
 
+        # Checks if each field has a value and then converts
+        # the value to text
         if name and name is not None:
             name = name.text
-            print(name)
+
+        # checks if title has value
         if title and title is not None:
             title = title.next_sibling.text
-            print(title)
+
+        # checks if office has a value
         if office and office is not None:
             office = office.next_sibling.text
-            print(office)
+
+        # checks if phone has a value
         if phone and phone is not None:
             phone = phone.next_sibling.text
-            print(phone)
+
+        # checks if email has a value
         if email and email is not None:
             email = email.text
-            print(email)
+
+        # checks if website has a value
         if website and website is not None:
             website = website.text
-            print(website)
 
+        # inserts each of those fields into MongoDB
         if name is not None:
             col.insert_one({
                 "name": name,
@@ -63,5 +74,3 @@ def parse(col, url):
                 "email": email,
                 "website": website
             })
-
-        print()
