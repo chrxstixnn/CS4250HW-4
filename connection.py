@@ -17,5 +17,6 @@ def connectDataBase():
     except:
         print("Database not connected successfully")
 
+# creates page document for database
 def createPage(col, url, html):
     col.insert_one({"url": url, "html": str(html)})
